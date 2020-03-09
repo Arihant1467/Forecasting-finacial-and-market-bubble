@@ -4,8 +4,8 @@ Predicting the next recession
 
 ### MLAB login credentials
 ```
-username: cmpe295
-password: cmpe295
+u: cmpe295
+p: cmpe295
 
 ```
 
@@ -14,3 +14,26 @@ password: cmpe295
 mongo ds034348.mlab.com:34348/forecast_market_bubble -u cmpe295 -p cmpe295
 mongodb://cmpe295:cmpe295@ds034348.mlab.com:34348/forecast_market_bubble
 ```
+
+### Setting up Go Path
+```
+export GOPATH=/Users/arihantsaiparuchuru/Downloads/Forecasting-finacial-and-market-bubble/go-server
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOPATH:$GOBIN
+```
+
+### Running Go Server
+```
+cd /Users/arihantsaiparuchuru/Downloads/Forecasting-finacial-and-market-bubble/go-server/src/go-server
+go build
+go run go-server 
+```
+
+### Ping Path
+```
+curl curl http://localhost:4000/api/v1/ping
+{
+  "Test": "Forecasting maarket bubble Go API v1 is alive"
+}
+```
+
