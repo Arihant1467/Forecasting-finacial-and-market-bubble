@@ -31,7 +31,7 @@ go run go-server
 
 ### Ping Path
 ```
-curl curl http://localhost:4000/api/v1/ping
+curl http://localhost:4000/api/v1/ping
 {
   "Test": "Forecasting maarket bubble Go API v1 is alive"
 }
