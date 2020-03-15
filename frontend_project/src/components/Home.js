@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import background from './background.jpg';
 
 class Home extends Component {
 
@@ -19,7 +20,9 @@ class Home extends Component {
 
     render() { 
         return ( 
-            <div>
+            <div className="wrapper">
+                <div className = "bg-cover"></div>
+                <img src = {background} width="100%" height="550"/>
                 <h2>"Hey there !!"</h2>
             </div>
          );
