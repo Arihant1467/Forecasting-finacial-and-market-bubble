@@ -23,7 +23,21 @@ export PATH=$PATH:$GOPATH:$GOBIN
 ```
 
 ### Running Go Server
+
 ```
+As per new changes, follow below steps :
+
+cd /Users/arihantsaiparuchuru/Downloads/Forecasting-finacial-and-market-bubble/go-server
+make go-get
+make go-build
+make go-run
+
+Test on postman :
+
+GET : localhost:4000/api/v1/landdata/atlanta
+GET : localhost:4000/api/v1/ping
+
+
 cd /Users/arihantsaiparuchuru/Downloads/Forecasting-finacial-and-market-bubble/go-server/src/go-server
 go build
 go run go-server 
