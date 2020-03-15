@@ -36,8 +36,8 @@ make go-run
 
 Test on postman :
 
-GET : localhost:4000/api/v1/landdata/atlanta
-GET : localhost:4000/api/v1/ping
+GET : http://localhost:4000/api/v1/landdata/{city}
+GET : http://localhost:4000/api/v1/ping
 
 
 cd /Users/arihantsaiparuchuru/Downloads/Forecasting-finacial-and-market-bubble/go-server/src/go-server
