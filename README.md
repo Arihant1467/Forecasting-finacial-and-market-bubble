@@ -13,6 +13,8 @@ p: cmpe295
 ```
 mongo ds034348.mlab.com:34348/forecast_market_bubble -u cmpe295 -p cmpe295
 mongodb://cmpe295:cmpe295@ds034348.mlab.com:34348/forecast_market_bubble
+
+mongoimport -h ds041571.mlab.com:41571 -d team295 -c landdata -u cmpe295 -p cmpe295 --file /Users/arihantsaiparuchuru/Downloads/LandData.csv --type csv --headerline
 ```
 
 ### Setting up Go Path
@@ -36,4 +38,4 @@ curl http://localhost:4000/api/v1/ping
   "Test": "Forecasting maarket bubble Go API v1 is alive"
 }
 ```
-
+ 
