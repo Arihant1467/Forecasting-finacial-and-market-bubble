@@ -55,8 +55,14 @@
   padding: 30px;
 }
 .SearchArea {
-  margin: 20% 0 0 20%;
+  padding: 20% 0 0 20%;
 }
 .pull-left {
   float: left;
+}
+.stockBackground {
+  background-image: url(../src/StockBackground.jpg);
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 750px;
 }
