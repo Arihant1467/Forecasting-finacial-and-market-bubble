@@ -51,7 +51,7 @@ class StockResultDisplay extends Component {
                         {/* <span> */}
                         <img src = {stockInsights.profile.image} width="250" height="200" class="col-lg-4"/>
                          <h2>{stockInsights.profile.companyName} - {stockInsights.symbol}</h2>
-                         <p>Price: {stockInsights.profile.volAvg}  </p>
+                         <p>Price: {stockInsights.profile.price}  </p>
                         <p>Average Volume: {stockInsights.profile.volAvg} BHK </p>
                         <p>Market Cap: {stockInsights.profile.mktCap} BR </p>
                         <p>Website: <a href={stockInsights.profile.website}>{stockInsights.profile.website}</a></p>

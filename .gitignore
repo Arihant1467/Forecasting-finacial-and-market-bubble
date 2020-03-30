@@ -1,2 +1,6 @@
 go-server/src/github.com/*
 go-server/src/gopkg.in/*
+go-server/go-server
+frontend-project/node_modules/*
+python-cloud-storage/lib/*
+python-cloud-storage/auth-keys/*
