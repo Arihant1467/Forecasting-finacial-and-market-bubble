@@ -1,0 +1,8 @@
+deactive: deactivate
+
+activate:
+	source ./bin/activate
+
+install-tools:
+	./bin/pip install google-cloud-storage
+	./bin/pip install pymongo

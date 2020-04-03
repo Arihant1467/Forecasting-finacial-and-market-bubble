@@ -13,6 +13,8 @@ p: cmpe295
 ```
 mongo ds034348.mlab.com:34348/forecast_market_bubble -u cmpe295 -p cmpe295
 mongodb://cmpe295:cmpe295@ds034348.mlab.com:34348/forecast_market_bubble
+
+mongoimport -h ds041571.mlab.com:41571 -d team295 -c landdata -u cmpe295 -p cmpe295 --file /Users/arihantsaiparuchuru/Downloads/LandData.csv --type csv --headerline
 ```
 
 ### Setting up Go Path
@@ -23,7 +25,21 @@ export PATH=$PATH:$GOPATH:$GOBIN
 ```
 
 ### Running Go Server
+
 ```
+As per new changes, follow below steps :
+
+cd /Users/arihantsaiparuchuru/Downloads/Forecasting-finacial-and-market-bubble/go-server
+make go-get
+make go-build
+make go-run
+
+Test on postman :
+
+GET : http://localhost:4000/api/v1/landdata/{city}
+GET : http://localhost:4000/api/v1/ping
+
+
 cd /Users/arihantsaiparuchuru/Downloads/Forecasting-finacial-and-market-bubble/go-server/src/go-server
 go build
 go run go-server 
@@ -36,4 +52,4 @@ curl http://localhost:4000/api/v1/ping
   "Test": "Forecasting maarket bubble Go API v1 is alive"
 }
 ```
-
+ 

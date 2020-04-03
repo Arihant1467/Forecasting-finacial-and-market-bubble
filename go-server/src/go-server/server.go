@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
@@ -13,9 +14,9 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-var mongodb_server = "mongodb://cmpe295:cmpe295@ds041571.mlab.com:41571"
-var mongodb_database = "team295"
-var mongodb_collection = "landdata"
+const mongodb_server = "mongodb://cmpe295:cmpe295@ds041571.mlab.com:41571/team295"
+const mongodb_database = "team295"
+const mongodb_collection = "landdata"
 
 // NewServer configures and returns a Server.
 func NewServer() *negroni.Negroni {
@@ -38,6 +39,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	s := mx.PathPrefix("/api/v1/").Subrouter()
 	s.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	s.HandleFunc("/landdata/{city}", getLanddataByCity(formatter)).Methods("GET")
+	//s.HandleFunc("/landData/{city}", getLandDataByCity(formatter)).Methods("GET")
 }
 
 func pingHandler(formatter *render.Render) http.HandlerFunc {
@@ -60,6 +62,7 @@ func setupResponse(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
+
 func getLanddataByCity(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		setupResponse(&w, req)
@@ -86,7 +89,7 @@ func getLanddataByCity(formatter *render.Render) http.HandlerFunc {
 		}
 		fmt.Println(results)
 		response := EventResponse{
-			Count:        len(results),
+			Count:       len(results),
 			AllLanddata: results}
 
 		if len(results) > 0 {
