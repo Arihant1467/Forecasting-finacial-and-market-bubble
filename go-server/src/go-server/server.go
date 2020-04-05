@@ -35,11 +35,11 @@ func NewServer() *negroni.Negroni {
 
 // API routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
-	//mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	s := mx.PathPrefix("/api/v1/").Subrouter()
 	s.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	s.HandleFunc("/landdata/{city}", getLanddataByCity(formatter)).Methods("GET")
-	//s.HandleFunc("/landData/{city}", getLandDataByCity(formatter)).Methods("GET")
+	s.HandleFunc("/login", login(formatter)).Methods("POST")
+	s.HandleFunc("/signup", signup(formatter)).Methods("POST")
 }
 
 func pingHandler(formatter *render.Render) http.HandlerFunc {

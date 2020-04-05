@@ -4,10 +4,18 @@ import (
 	_ "gopkg.in/mgo.v2/bson"
 )
 
-// User : structure of the user
-type User struct {
-	UserName string `json:"username" bson:"username"`
-	password string `json:"password" bson:"password"`
+// Login : structure of the login
+type Login struct {
+	Username string `json:"username" bson:"username"`
+	Password string `json:"password" bson:"password"`
+}
+
+// Signup : structure of the login
+type Signup struct {
+	Firstname string `json:"firstname" bson:"firstname"`
+	Lastname  string `json:"lastname" bson:"lastname"`
+	Username  string `json:"username" bson:"username"`
+	Password  string `json:"password" bson:"password"`
 }
 
 // Landdata : structure of the landdata
@@ -27,4 +35,9 @@ type Landdata struct {
 type EventResponse struct {
 	Count       int        `json:"count"`
 	AllLanddata []Landdata `json:"alllanddata"`
+}
+
+// Test : to show server status
+type Test struct {
+	Status string `json:"status" bson:"status"`
 }
