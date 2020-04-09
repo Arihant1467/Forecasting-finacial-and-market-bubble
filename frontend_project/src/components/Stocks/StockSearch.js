@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 // import stockBackground from '.././Stock-Background.jpg';
-import {server} from './../../constants/servers';
+import {api} from './../../constants';
 
 class StockSearch extends Component {
 
@@ -30,7 +30,7 @@ class StockSearch extends Component {
 
     async componentDidMount () {
 
-        await axios.get("https://financialmodelingprep.com/api/v3/company/profile/JDST").then((result)=>{
+        await axios.get(`https://financialmodelingprep.com/api/v3/company/profile/JDST`).then((result)=>{
             console.log("response from  server", result);
             
         }).catch((error)=>{

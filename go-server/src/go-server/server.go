@@ -17,6 +17,7 @@ import (
 const mongodb_server = "mongodb://cmpe295:cmpe295@ds041571.mlab.com:41571/team295"
 const mongodb_database = "team295"
 const mongodb_collection = "landdata"
+const mongodb_login = "login"
 
 // NewServer configures and returns a Server.
 func NewServer() *negroni.Negroni {
@@ -100,3 +101,21 @@ func getLanddataByCity(formatter *render.Render) http.HandlerFunc {
 		}
 	}
 }
+
+/*
+func connectMongoDB(dbURL string, dbName string, dbColl string) (mgo.Collection, error) {
+
+	session, err := mgo.Dial(dbURL)
+	if err != nil {
+		fmt.Printf(err.Error())
+		return nil, errors.New("Could not establish connection")
+		panic(err)
+	}
+	defer session.Close()
+	session.SetMode(mgo.Monotonic, true)
+	c := session.DB(dbName).C(dbColl)
+	session.DB(dbName).C(dbColl)
+	return c, nil
+
+}
+*/

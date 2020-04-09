@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
 import background from './background.jpg';
-import {server} from './../constants/servers';
+import {api} from './../constants';
+
 
 class Home extends Component {
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state  = {
             test:'',
-            place: ''
+            place: null,
+            search: false
         }
-        this.placeChangeHandler = this.placeChangeHandler.bind(this);
-        this.submitPlaceSearch = this.submitPlaceSearch.bind(this);
-
+        
     }
 
     placeChangeHandler = (e) => {
@@ -25,14 +25,14 @@ class Home extends Component {
 
     submitPlaceSearch = (e) => {
         e.preventDefault();
-        console.log(this.state.place);
+        this.setState({
+            search: true
+        });
         localStorage.setItem("City", this.state.place);
     }
 
     async componentDidMount () {
-        console.log("component did mount");
-        //const uri = `${server}/ping`;
-        await axios.get("http://localhost:4000/api/v1/landdata/atlanta").then((result)=>{
+        await axios.get(`${api}/landdata/atlanta`).then((result)=>{
             console.log("response from  server");
             console.log(result.data);
             console.log(result.data.alllanddata[0].HomeValue+result.data.alllanddata[1].HomeValue);
@@ -54,22 +54,27 @@ class Home extends Component {
 
     }
 
-    
 
     render() { 
 
-        const {test} = this.state;
+        const {test, search, place} = this.state;
+        let redirectUrl = null;
+        if(search && place!== null){
+            const url = `/dashboard/${place}`;
+            redirectUrl = <Redirect to={url} />;
+        }
+
+
         return ( 
             <div className="wrapper">
+                {redirectUrl}
                 <div className="background">
-                {/* <img src = {background} width="100%" height="550"/> */}
                     <h2></h2>
                     <div className="SearchArea">
-                        <input type="text" onChange = {this.placeChangeHandler} className="form-control form-control-lg form_control_city_location col-xs-3 pull-left" name="place" placeholder="Search for a city"/>
-                        <button onClick = {this.submitPlaceSearch} className="btn btn-primary btn-lg searchButton"><Link to={`/dashboard/:${this.state.place}`} className="searchButton">Search</Link></button>
+                        <input type="text" onChange = {this.placeChangeHandler} className="form-control form-control-lg form_control_city_location col-xs-3 pull-left" name="place" placeholder="San Jose"/>
+                        <button onClick = {this.submitPlaceSearch} className="btn btn-primary btn-lg searchButton">Search</button>
                     </div>
                 </div>
-                <p>hi</p>
             <div>
                 <h2>{test}</h2>
             </div>

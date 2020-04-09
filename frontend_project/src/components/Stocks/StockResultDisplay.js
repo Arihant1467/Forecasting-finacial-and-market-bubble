@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-import {server} from './../../constants/servers';
+import {api} from './../../constants';
 
 class StockResultDisplay extends Component {
 
