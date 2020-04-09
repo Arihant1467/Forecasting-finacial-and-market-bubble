@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Dashboard.css';
 import { api } from './../../constants';
 import { Bar, Line, Pie } from 'react-chartjs-2';
-import { Spinner } from 'reactstrap';
+import { Spinner, UncontrolledAlert } from 'reactstrap';
 
 class Dashboard extends Component {
 
@@ -15,6 +15,7 @@ class Dashboard extends Component {
             place: '',
             placeData: '',
             loading: false,
+            alertMsg: null,
             chartData: {
                 labels: ['Arizona', 'Boston', 'Cali', 'Denver', 'Detroitte', 'New York'],
                 datasets: [
@@ -50,7 +51,8 @@ class Dashboard extends Component {
         const formattedCity = city.trim().toUpperCase().replace(new RegExp('\ ', 'g'), '');
 
         this.setState({
-            loading:true
+            loading:true,
+            alertMsg:null,
         })
 
         await axios.get(`${api}/landdata/${formattedCity}`).then((result) => {
@@ -126,6 +128,9 @@ class Dashboard extends Component {
             });
         }).catch((error) => {
             console.log("error");
+            this.setState({
+                alertMsg: "There was an error in reaching server",
+            })
             console.log(JSON.stringify(error));
         });
 
@@ -134,7 +139,7 @@ class Dashboard extends Component {
 
     render() {
 
-        const {loading} = this.state;
+        const {loading, alertMsg} = this.state;
         let dashboard = null;
 
         if(!loading){
@@ -147,7 +152,7 @@ class Dashboard extends Component {
                     <div className="col-md-12 barchart" style={{ padding: '5px' }}>
                         <Bar data={this.state.chartData}
                             options={{
-                            }}
+                            }} 
                         />
                     </div>
 
@@ -189,9 +194,15 @@ class Dashboard extends Component {
             );
         }
 
+        let alert = null;
+        if(alertMsg != null){
+            alert = (<UncontrolledAlert color="info">{alertMsg}</UncontrolledAlert>);
+        }
+
         return (
             <>
                 {dashboard}
+                {alert}
 
             </>
         );

@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import Autocomplete from 'react-autocomplete';
 import axios from 'axios';
 import background from './background.jpg';
-import {api} from './../constants';
+import { api, citiesAvailable } from './../constants';
 
 
 class Home extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state  = {
-            test:'',
-            place: null,
-            search: false
+        this.state = {
+            test: '',
+            place: '',
+            search: false,
         }
-        
+
     }
 
     placeChangeHandler = (e) => {
@@ -31,56 +32,84 @@ class Home extends Component {
         localStorage.setItem("City", this.state.place);
     }
 
-    async componentDidMount () {
-        await axios.get(`${api}/landdata/atlanta`).then((result)=>{
+    async componentDidMount() {
+        await axios.get(`${api}/landdata/atlanta`).then((result) => {
             console.log("response from  server");
             console.log(result.data);
-            console.log(result.data.alllanddata[0].HomeValue+result.data.alllanddata[1].HomeValue);
+            console.log(result.data.alllanddata[0].HomeValue + result.data.alllanddata[1].HomeValue);
             const test = result.data.Test;
             console.log(test);
-            this.setState({test});
-            
-        }).catch((error)=>{
+            this.setState({ test });
+
+        }).catch((error) => {
             console.log("error");
             console.log(JSON.stringify(error));
         })
 
-        await axios.get("https://financialmodelingprep.com/api/v3/company/profile/AAPL").then((result)=>{
+        await axios.get("https://financialmodelingprep.com/api/v3/company/profile/AAPL").then((result) => {
             console.log("response from  server", result);
-            
-        }).catch((error)=>{
+
+        }).catch((error) => {
             console.log("error");
         })
 
     }
 
 
-    render() { 
+    render() {
 
-        const {test, search, place} = this.state;
+        const { test, search, place } = this.state;
         let redirectUrl = null;
-        if(search && place!== null){
-            const url = `/dashboard/${place}`;
-            redirectUrl = <Redirect to={url} />;
+        if (search && place !== null) {
+            const formattedCity = place.trim().toUpperCase().replace(new RegExp('\ ', 'g'), '');
+
+            if (citiesAvailable.indexOf(formattedCity) > -1) {
+                const url = `/dashboard/${formattedCity}`;
+                redirectUrl = <Redirect to={url} />;
+            } else {
+                console.log("the city you mentioned is not in our database");
+            }
+
+
         }
 
 
-        return ( 
+        return (
             <div className="wrapper">
                 {redirectUrl}
                 <div className="background">
-                    <h2></h2>
                     <div className="SearchArea">
-                        <input type="text" onChange = {this.placeChangeHandler} className="form-control form-control-lg form_control_city_location col-xs-3 pull-left" name="place" placeholder="San Jose"/>
-                        <button onClick = {this.submitPlaceSearch} className="btn btn-primary btn-lg searchButton">Search</button>
+                        {/* <input type="text" onChange={this.placeChangeHandler} className="form-control form-control-lg form_control_city_location col-xs-3 pull-left" name="place" placeholder="San Jose" /> */}
+
+                        <Autocomplete
+                            inputProps={{ style: { width: '500px', height: '45px', marginRight: '10px' } }}
+                            getItemValue={(item) => item}
+                            items={citiesAvailable}
+                            shouldItemRender={(item, value) => {
+                                const formattedCity = value.trim().toUpperCase().replace(new RegExp('\ ', 'g'), '');
+                                return item.indexOf(formattedCity) > -1;
+                            }}
+                            renderItem={(item, isHighlighted) =>
+                                <div key={item} style={{ background: isHighlighted ? '#3bb3e7' : 'white', paddingTop: '2px' }}>
+                                    <i>{item}</i>
+                                </div>
+                            }
+                            value={place}
+                            onChange={this.placeChangeHandler}
+                            onSelect={(place) => this.setState({ place })}
+                        />
+
+                        <button
+                            onClick={this.submitPlaceSearch}
+                            className="btn btn-primary btn-lg searchButton pull-right">Search</button>
                     </div>
                 </div>
-            <div>
-                <h2>{test}</h2>
+                <div>
+                    <h2>{test}</h2>
+                </div>
             </div>
-            </div>
-         );
+        );
     }
 }
- 
+
 export default Home;
