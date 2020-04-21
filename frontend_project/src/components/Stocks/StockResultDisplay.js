@@ -42,19 +42,41 @@ class StockResultDisplay extends Component {
             console.log(this.state.stockData.symbol);
             details = this.state.stockData.map(stockInsights => {
                 return(
-                    
-                    <div class="col-xs-10">
+                    <div>
+                    <div className="menubar1">
+                <div class="navbar-header">
+                    {/* <Link to="/travelerafterlogin">
+                    <img src="http://csvcus.homeaway.com/rsrcs/cdn-logos/2.10.6/bce/moniker/homeaway_us/logo-bceheader.svg"/>
+                    </Link> */}
+                </div>
+                <div class = "navbar nav navbar-expand-lg navbar-right trans">
+                <ul class="nav navbar-nav trans">
+                <li class="head1 active menu-items1"><Link to="/home" class="btn btn-default head1 "><font color="blue">Home</font></Link></li>&nbsp;&nbsp;&nbsp;
+                <li className="menu-items1">
+                <Link to="/stockSearch" class="btn btn-default head1 "><font color="blue">Company Stock</font></Link>
+                </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <li class="dropdown menu-items1">
+               <Link to="#" class="head1 dropdown-toggle" data-toggle="dropdown"><font color="blue"><span class="glyphicon glyphicon-user"></span>{this.state.fname}</font>
+              </Link>
+               <ul class="dropdown-menu">
+               <li><Link to="/home" className="head1 menu-items1" onClick = {this.handleLogout}><span class="glyphicon glyphicon-log-out"></span>Logout</Link></li>
+               </ul>
+               </li>
+               &nbsp;&nbsp;&nbsp;
+                </ul>
+                </div> 
+                </div>
+                    {/* <div class="col-xs-10">
                         <div>
                             <p>Stock Insights</p>
-                            <br/>
-                        {/* <div class="col-lg-6"> */}
-                        {/* <span> */}
-                        <img src = {stockInsights.profile.image} width="250" height="200" class="col-lg-4"/>
+                            <br/> */}
+                        
+                        {/* <img src = {stockInsights.profile.image} width="100" height="100"/>
                          <h2>{stockInsights.profile.companyName} - {stockInsights.symbol}</h2>
                          <p>Price: {stockInsights.profile.price}  </p>
                         <p>Average Volume: {stockInsights.profile.volAvg} BHK </p>
                         <p>Market Cap: {stockInsights.profile.mktCap} BR </p>
-                        <p>Website: <a href={stockInsights.profile.website}>{stockInsights.profile.website}</a></p>
+                        <p>Website: <a href={stockInsights.profile.website}>{stockInsights.profile.website}</a></p> */}
                          {/* price: 1.92
                     beta: "0.531451"
                     volAvg: "10292732"
@@ -79,8 +101,26 @@ class StockResultDisplay extends Component {
                         <p className="rateDetails">$ {properties.rate}</p>
                         </div>
                         <br/> */}
-                        </div>
+                        {/* </div>
+                    </div> */}
+                    {/* --- */}
+
+                    <div className="prop">
+                    <div class="row">
+                    <div class="col-sm-5" className="backColor5_list">
+                    <img src = {stockInsights.profile.image} className="mediao"/>
                     </div>
+                    <div class="col-sm-7" className="backColor_dash_list">
+                    <p className="headline_list">{stockInsights.profile.companyName} - {stockInsights.symbol}</p><br/>
+                    <p>Price: {stockInsights.profile.price}  </p>
+                    <p>Average Volume: {stockInsights.profile.volAvg} BHK </p>
+                    <p>Market Cap: {stockInsights.profile.mktCap} BR </p>
+                    <p>Website: <a href={stockInsights.profile.website}>{stockInsights.profile.website}</a></p>
+                    </div>
+                    </div>
+                    </div>
+                    {/* --- */}
+                     </div>
                 )
             })
         }

@@ -30,3 +30,25 @@
     margin-right : 40px;
     padding-left : 60px;
 }
+.menubar1 {
+    height:61px;
+    background-color: #337ab7;
+  }
+
+.trans {
+    background: transparent;
+    border: transparent;
+  }
+
+.menu-items1 {
+    font-size: 0.15in;
+}
+
+.pull-right .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.head1 {
+    font-size : 16px;
+}

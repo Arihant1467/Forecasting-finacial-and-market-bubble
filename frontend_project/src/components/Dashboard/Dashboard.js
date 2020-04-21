@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -163,12 +164,55 @@ class Dashboard extends Component {
             //             />
             //         </div>
             //    </div>
+            
+            <div>
+            <div className="menubar1">
+                <div class="navbar-header">
+                    {/* <Link to="/travelerafterlogin">
+                    <img src="http://csvcus.homeaway.com/rsrcs/cdn-logos/2.10.6/bce/moniker/homeaway_us/logo-bceheader.svg"/>
+                    </Link> */}
+                </div>
+                <div class = "navbar nav navbar-expand-lg navbar-right trans">
+                <ul class="nav navbar-nav trans">
+                <li class="head1 active menu-items1"><Link to="/home" class="btn btn-default head1 "><font color="blue">Home</font></Link></li>&nbsp;&nbsp;&nbsp;
+                <li className="menu-items1">
+                <Link to="/stockSearch" class="btn btn-default head1 "><font color="blue">Company Stock</font></Link>
+                </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <li class="dropdown menu-items1">
+               <Link to="#" class="head1 dropdown-toggle" data-toggle="dropdown"><font color="blue"><span class="glyphicon glyphicon-user"></span>{this.state.fname}</font>
+              </Link>
+               <ul class="dropdown-menu">
+               <li><Link to="/home" className="head1 menu-items1" onClick = {this.handleLogout}><span class="glyphicon glyphicon-log-out"></span>Logout</Link></li>
+               </ul>
+               </li>
+               &nbsp;&nbsp;&nbsp;
+                {/* <li class="dropdown menu-items1">
+                <Link to="#" class="head1 dropdown-toggle" data-toggle="dropdown"><font color="blue">Help</font>
+              </Link>
+                <ul class="dropdown-menu">
+                <li className="head1 menu-items1"><Link to="#">Visit help center</Link></li>
+        
+                </ul>
+                </li> */}
+
+                
+                {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+                {/* <li>
+                <img alt="HomeAway birdhouse" role="presentation" src="//csvcus.homeaway.com/rsrcs/cdn-logos/2.11.0/bce/moniker/homeaway_us/birdhouse-bceheader-white.svg"/>
+                </li>
+                <li>
+                <img src="//csvcus.homeaway.com/rsrcs/cdn-logos/2.11.0/bce/moniker/homeaway_us/birdhouse-bceheader.svg"/>
+                </li> */}
+                </ul>
+                </div> 
+            </div>
+
             <div className="outer">
             <Tabs defaultIndex={0}>
                 <TabList>
                     <Tab>Land Value</Tab>
                     <Tab>Home Value</Tab>
-                    <Tab>Structure Value</Tab>
+                    <Tab>Structure Cost</Tab>
                 </TabList>
                
                 <TabPanel>
@@ -199,6 +243,7 @@ class Dashboard extends Component {
                 /></div>
                 </TabPanel>
             </Tabs>
+            </div>
             </div>
             );
         }else{
