@@ -31,6 +31,11 @@ make install-tools
 
 ```
 
+### To upload csv to mongo
+```
+mongoimport -h ds041571.mlab.com:41571 -d team295 -c <collection> -u <user> -p <password> --file <csvfilepath> --type csv --headerline 
+```
+
 
 ### Checkout [MakeFile](./MakeFile) for any commands
 

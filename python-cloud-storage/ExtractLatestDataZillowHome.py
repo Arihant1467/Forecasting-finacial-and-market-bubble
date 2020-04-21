@@ -95,7 +95,7 @@ def generateCSV(filePath):
                             quarterValue = 0
                             for month in quarterMonths:
                                 quarterValue  = quarterValue + float(row[month])
-                            quarterPrice = "$"+ str(float("{:.2f}".format(quarterValue/3)) )
+                            quarterPrice = float("{:.2f}".format(quarterValue/3))
                             line = {"MSA":rowCity,"Date":rowQuarterTitle,"Home Value":quarterPrice}
                             csvLines.append(line)
                     cities.remove(rowCity)
