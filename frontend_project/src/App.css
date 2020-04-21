@@ -48,6 +48,12 @@
   background-repeat: no-repeat;
   width: 100%;
   height: 750px;
+
+  background-size: cover;
+  background-position : center center;
+  min-height: 100%;
+  min-width: 1024px;
+  height: 100vh;
 }
 .form_control_city_location {
   width: 600px;
@@ -65,4 +71,68 @@
   background-repeat: no-repeat;
   width: 100%;
   height: 750px;
+  background-size: cover;
+  background-position : center center;
+  min-height: 100%;
+  min-width: 1024px;
+  height: 100vh;
+}
+
+.srch {
+  line-height: 2.3;
+}
+
+.linkcss {
+  color: white;
+}
+
+.prop{
+  margin-top: 70px;
+  font-size:18px;
+  margin-left : 170px;
+  margin-right: 170px;
+  border-radius: 6px;
+  box-shadow: 0 0 70px 0 rgba(0,0,0,.1);
+  overflow: hidden;
+  position: relative;
+  height : 320px;
+}
+
+.backColor5_list {
+  height: 250px;
+  width : 400px;
+  margin-left : -90px;
+  text-align : bottom;
+}
+.backColor_dash_list {
+  background-color: white;
+  height: 250px;
+  width : 500px;
+  text-align : bottom;
+  /* margin-left : 20px; */
+  padding: 40px;
+}
+
+.noresult {
+  margin-top : 40px;
+  margin-left  : 50px;
+  text-align : center;
+  font-size:  23px;
+  font-weight: bold;
+}
+
+.prop_pagi{
+  margin-left : 180px;
+}
+
+.mediao {
+  width : 200px;
+height : 200px;
+margin-left : 150px;
+margin-top: 60px;
+}
+
+.headline_list {
+  font-size: 30px;
+  margin-top:0.5px
 }

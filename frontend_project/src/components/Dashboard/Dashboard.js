@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 import './Dashboard.css';
 import { api } from './../../constants';
 import { Bar, Line, Pie } from 'react-chartjs-2';
+
 import { Spinner, UncontrolledAlert } from 'reactstrap';
 
 class Dashboard extends Component {
@@ -67,9 +71,21 @@ class Dashboard extends Component {
                 structureCostData.push(result.data.alllanddata[i].StructureCost);
             }
 
-            console.log(labels, data);
-            console.log(homeData);
-            console.log("structure cost data " + structureCostData);
+            console.log("LABELS : " + labels);
+            let results = [];
+            let iterator = labels.values();
+            for (let elements of iterator) { 
+                console.log(elements);
+                if(elements.substring(4, 6) == 'Q1')
+                results.push('rgba(255, 99, 123, 0.6)');
+                else if(elements.substring(4, 6) == 'Q2')
+                results.push('rgba(54, 162, 235, 0.6)');
+                else if(elements.substring(4, 6) == 'Q3')
+                results.push('rgba(255, 206, 86, 0.6)');
+                else if(elements.substring(4, 6) == 'Q4')
+                results.push('rgba(75, 192, 192, 0.6)');
+            }
+            console.log("RESULTS : ", results);
 
             this.setState({
                 loading:false,
@@ -80,14 +96,7 @@ class Dashboard extends Component {
                         {
                             label: 'Land Value',
                             data: data,
-                            backgroundColor: [
-                                'rgba(255, 99, 123, 0.6)',
-                                'rgba(54, 162, 235, 0.6)',
-                                'rgba(255, 206, 86, 0.6)',
-                                'rgba(75, 192, 192, 0.6)',
-                                'rgba(153, 102, 255, 0.6)',
-                                'rgba(255, 159, 64, 0.6)'
-                            ]
+                            backgroundColor: results
                         }
                     ]
                 },
@@ -97,14 +106,7 @@ class Dashboard extends Component {
                         {
                             label: 'Home Value',
                             data: homeData,
-                            backgroundColor: [
-                                'rgba(255, 99, 123, 0.6)',
-                                'rgba(54, 162, 235, 0.6)',
-                                'rgba(255, 206, 86, 0.6)',
-                                'rgba(75, 192, 192, 0.6)',
-                                'rgba(153, 102, 255, 0.6)',
-                                'rgba(255, 159, 64, 0.6)'
-                            ]
+                            backgroundColor: results
                         }
                     ]
                 },
@@ -114,14 +116,7 @@ class Dashboard extends Component {
                         {
                             label: 'Structure Cost Value',
                             data: structureCostData,
-                            backgroundColor: [
-                                'rgba(255, 99, 123, 0.6)',
-                                'rgba(54, 162, 235, 0.6)',
-                                'rgba(255, 206, 86, 0.6)',
-                                'rgba(75, 192, 192, 0.6)',
-                                'rgba(153, 102, 255, 0.6)',
-                                'rgba(255, 159, 64, 0.6)'
-                            ]
+                            backgroundColor: results
                         }
                     ]
                 }
@@ -144,46 +139,112 @@ class Dashboard extends Component {
 
         if(!loading){
             dashboard = (
-                <>
-                <div className="wrapper row">
-                    <h2 className="header">Dashboard Charts</h2>
-
-                    <div>Land Value</div>
-                    <div className="col-md-12 barchart" style={{ padding: '5px' }}>
-                        <Bar data={this.state.chartData}
-                            options={{
-                            }} 
-                        />
-                    </div>
-
-
+                
+            //     <div className="wrapper row">
+            //         <h2 className="header">Dashboard Charts</h2>
+            //         {/* <h3>Land Value</h3> */}
+            //         <div className="col-md-6 barchart">
+            //             <Bar data={this.state.chartData}
+            //                 options={{
+            //                 }} 
+            //             />
+            //         </div>
+            //         {/* <div>Home Value</div> */}
+            //         <div className="col-md-6">
+            //             <Bar data={this.state.homeChartData}
+            //                 options={{
+            //                 }}
+            //             />
+            //         </div>
+            //         {/* <div>Structure Value</div> */}
+            //         <div className="col-md-6">
+            //             <Bar data={this.state.costChartData}
+            //                 options={{
+            //                 }}
+            //             />
+            //         </div>
+            //    </div>
+            
+            <div>
+            <div className="menubar1">
+                <div class="navbar-header">
+                    {/* <Link to="/travelerafterlogin">
+                    <img src="http://csvcus.homeaway.com/rsrcs/cdn-logos/2.10.6/bce/moniker/homeaway_us/logo-bceheader.svg"/>
+                    </Link> */}
                 </div>
+                <div class = "navbar nav navbar-expand-lg navbar-right trans">
+                <ul class="nav navbar-nav trans">
+                <li class="head1 active menu-items1"><Link to="/home" class="btn btn-default head1 "><font color="blue">Home</font></Link></li>&nbsp;&nbsp;&nbsp;
+                <li className="menu-items1">
+                <Link to="/stockSearch" class="btn btn-default head1 "><font color="blue">Company Stock</font></Link>
+                </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <li class="dropdown menu-items1">
+               <Link to="#" class="head1 dropdown-toggle" data-toggle="dropdown"><font color="blue"><span class="glyphicon glyphicon-user"></span>{this.state.fname}</font>
+              </Link>
+               <ul class="dropdown-menu">
+               <li><Link to="/home" className="head1 menu-items1" onClick = {this.handleLogout}><span class="glyphicon glyphicon-log-out"></span>Logout</Link></li>
+               </ul>
+               </li>
+               &nbsp;&nbsp;&nbsp;
+                {/* <li class="dropdown menu-items1">
+                <Link to="#" class="head1 dropdown-toggle" data-toggle="dropdown"><font color="blue">Help</font>
+              </Link>
+                <ul class="dropdown-menu">
+                <li className="head1 menu-items1"><Link to="#">Visit help center</Link></li>
+        
+                </ul>
+                </li> */}
 
-                <div className="row">
-                    <div>Home Value</div>
-                    <div className="col-md-12">
-                        <Bar data={this.state.homeChartData}
-                            options={{
-                            }}
-                        />
-                    </div>
+                
+                {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+                {/* <li>
+                <img alt="HomeAway birdhouse" role="presentation" src="//csvcus.homeaway.com/rsrcs/cdn-logos/2.11.0/bce/moniker/homeaway_us/birdhouse-bceheader-white.svg"/>
+                </li>
+                <li>
+                <img src="//csvcus.homeaway.com/rsrcs/cdn-logos/2.11.0/bce/moniker/homeaway_us/birdhouse-bceheader.svg"/>
+                </li> */}
+                </ul>
+                </div> 
+            </div>
 
-
-                </div>
-
-                <div className="row">
-
-                <div>Structure Value</div>
-                    <div className="col-md-12">
-                        <Bar data={this.state.costChartData}
-                            options={{
-                            }}
-                        />
-                    </div>
-
-                </div>
-
-            </>
+            <div className="outer">
+            <Tabs defaultIndex={0}>
+                <TabList>
+                    <Tab>Land Value</Tab>
+                    <Tab>Home Value</Tab>
+                    <Tab>Structure Cost</Tab>
+                </TabList>
+               
+                <TabPanel>
+                <div className="charts">
+                <Bar data={this.state.chartData}
+                    options={{
+                        responsive : true,
+                        maintainAspectRatio: false
+                    }} 
+                /></div>
+                </TabPanel>
+                <TabPanel>
+                <div className="charts">
+                <Bar data={this.state.homeChartData}
+                    options={{
+                        responsive : true,
+                        maintainAspectRatio: false
+                    }} 
+                /></div>
+                </TabPanel>
+                <TabPanel>
+                <div className="charts">
+                <Bar data={this.state.costChartData}
+                    options={{
+                        responsive : true,
+                        maintainAspectRatio: false
+                    }} 
+                /></div>
+                </TabPanel>
+            </Tabs>
+            </div>
+            </div>
             );
         }else{
             dashboard = (
