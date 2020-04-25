@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -41,6 +42,10 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	s.HandleFunc("/landdata/{city}", getLanddataByCity(formatter)).Methods("GET")
 	s.HandleFunc("/login", login(formatter)).Methods("POST")
 	s.HandleFunc("/signup", signup(formatter)).Methods("POST")
+
+	// Tingo Based
+	s.HandleFunc("/stock/search/{searchText}", searchTingo(formatter)).Methods("GET")
+	s.HandleFunc("/stock/latest/{tinker}", latestStockPrice(formatter)).Methods("GET")
 }
 
 func pingHandler(formatter *render.Render) http.HandlerFunc {
@@ -99,6 +104,66 @@ func getLanddataByCity(formatter *render.Render) http.HandlerFunc {
 			formatter.JSON(w, http.StatusNoContent,
 				struct{ Response string }{"No landdata found"})
 		}
+	}
+}
+
+func searchTingo(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		setupResponse(&w, req)
+		fmt.Println("inside searchTingo")
+		params := mux.Vars(req)
+		var searchText string = params["searchText"]
+
+		url := "https://api.tiingo.com/tiingo/utilities/search?query=" + searchText
+		method := "GET"
+		client := &http.Client{}
+
+		req, err := http.NewRequest(method, url, nil)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		req.Header.Add("Content-Type", "application/json")
+		req.Header.Add("Authorization", "Token a7cece7d8a0fa6692e5d9ff35ef510ef1058166a")
+
+		res, err := client.Do(req)
+		defer res.Body.Close()
+		body, err := ioutil.ReadAll(res.Body)
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(body)
+
+	}
+}
+
+func latestStockPrice(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		setupResponse(&w, req)
+		fmt.Println("inside latestStockPrice")
+		params := mux.Vars(req)
+		var tinker string = params["tinker"]
+
+		url := "https://api.tiingo.com/tiingo/daily/" + tinker + "/prices"
+		method := "GET"
+		client := &http.Client{}
+
+		req, err := http.NewRequest(method, url, nil)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		req.Header.Add("Content-Type", "application/json")
+		req.Header.Add("Authorization", "Token a7cece7d8a0fa6692e5d9ff35ef510ef1058166a")
+
+		res, err := client.Do(req)
+		defer res.Body.Close()
+		body, err := ioutil.ReadAll(res.Body)
+
+		fmt.Println(string(body))
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(body)
+
 	}
 }
 
