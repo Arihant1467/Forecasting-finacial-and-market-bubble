@@ -52,3 +52,12 @@
 .head1 {
     font-size : 16px;
 }
+.lpScoreButton {
+    background-color: green;
+    
+}
+.lpScoreButtonDiv {
+    margin-left: 45%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
