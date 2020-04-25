@@ -17,6 +17,8 @@ import (
 const mongodb_server = "mongodb://cmpe295:cmpe295@ds041571.mlab.com:41571/team295"
 const mongodb_database = "team295"
 const mongodb_collection = "landdata"
+const latestdata_collection = "latesthomedata"
+const forecast_collection = "forecastpctchange"
 const mongodb_login = "login"
 
 // NewServer configures and returns a Server.
@@ -41,6 +43,8 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	s.HandleFunc("/landdata/{city}", getLanddataByCity(formatter)).Methods("GET")
 	s.HandleFunc("/login", login(formatter)).Methods("POST")
 	s.HandleFunc("/signup", signup(formatter)).Methods("POST")
+	s.HandleFunc("/recentdata/{city}", getRecentDataByCity(formatter)).Methods("GET")
+	s.HandleFunc("/pctchangedata/{city}", getPctChangeDataByCity(formatter)).Methods("GET")
 }
 
 func pingHandler(formatter *render.Render) http.HandlerFunc {
@@ -101,7 +105,83 @@ func getLanddataByCity(formatter *render.Render) http.HandlerFunc {
 		}
 	}
 }
+// fetching data from latesthomedata collection from mLab
+func getRecentDataByCity(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		setupResponse(&w, req)
+		fmt.Println("inside getRecentDataByCity")
 
+		session, err := mgo.Dial(mongodb_server)
+		if err != nil {
+			panic(err)
+		}
+		defer session.Close()
+		session.SetMode(mgo.Monotonic, true)
+		c := session.DB(mongodb_database).C(latestdata_collection)
+
+		var results []Landdata
+		params := mux.Vars(req)
+		var city string = params["city"]
+		fmt.Printf("city: %s", city)
+		err = c.Find(bson.M{"MSA": strings.ToUpper(city)}).All(&results)
+		if err != nil {
+			fmt.Println("Error while getting latestdata: ", err)
+			log.Fatal(err)
+			formatter.JSON(w, http.StatusInternalServerError,
+				struct{ Response error }{err})
+		}
+		fmt.Println(results)
+		response := EventResponse{
+			Count:       len(results),
+			AllLanddata: results}
+
+		if len(results) > 0 {
+			formatter.JSON(w, http.StatusOK, response)
+		} else {
+			formatter.JSON(w, http.StatusNoContent,
+				struct{ Response string }{"No recentdata found"})
+		}
+	}
+}
+// API for fetching data from forecastpctchange collection in mLab
+func getPctChangeDataByCity(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		setupResponse(&w, req)
+		fmt.Println("inside getPctChangeDataByCity")
+
+		session, err := mgo.Dial(mongodb_server)
+		if err != nil {
+			panic(err)
+		}
+		defer session.Close()
+		session.SetMode(mgo.Monotonic, true)
+		c := session.DB(mongodb_database).C(forecast_collection)
+
+		var results []Forecastdata
+		params := mux.Vars(req)
+		var city string = params["city"]
+		fmt.Printf("city: %s", city)
+		err = c.Find(bson.M{"City": strings.ToUpper(city)}).All(&results)
+		if err != nil {
+			fmt.Println("Error while getting forecastdata: ", err)
+			log.Fatal(err)
+			formatter.JSON(w, http.StatusInternalServerError,
+				struct{ Response error }{err})
+		}
+		fmt.Println(results)
+		
+		response := ForecastResponse{
+			Count:       len(results),
+			Allforecastdata: results}
+
+		if len(results) > 0 {
+			formatter.JSON(w, http.StatusOK, response)
+		} else {
+			formatter.JSON(w, http.StatusNoContent,
+				struct{ Response string }{"No forecastdata found"})
+		}
+	}
+}
 /*
 func connectMongoDB(dbURL string, dbName string, dbColl string) (mgo.Collection, error) {
 
