@@ -6,7 +6,7 @@ import 'react-tabs/style/react-tabs.css';
 import './Dashboard.css';
 import { api } from './../../constants';
 import { Bar, Line, Pie } from 'react-chartjs-2';
-
+import { Redirect } from 'react-router-dom';
 import { Spinner, UncontrolledAlert } from 'reactstrap';
 
 class Dashboard extends Component {
@@ -20,6 +20,7 @@ class Dashboard extends Component {
             placeData: '',
             loading: false,
             alertMsg: null,
+            navigateToPredictionPage: null,
             chartData: {
                 labels: ['Arizona', 'Boston', 'Cali', 'Denver', 'Detroitte', 'New York'],
                 datasets: [
@@ -46,6 +47,7 @@ class Dashboard extends Component {
             }
 
         }
+        this.findPredictionResult = this.findPredictionResult.bind(this);
     }
 
     async componentDidMount() {
@@ -94,7 +96,7 @@ class Dashboard extends Component {
                     labels: labels,
                     datasets: [
                         {
-                            label: 'Land Value',
+                            label: 'Land Value - All values in dollars',
                             data: data,
                             backgroundColor: results
                         }
@@ -104,7 +106,7 @@ class Dashboard extends Component {
                     labels: labels,
                     datasets: [
                         {
-                            label: 'Home Value',
+                            label: 'Home Value - All values in dollars',
                             data: homeData,
                             backgroundColor: results
                         }
@@ -114,7 +116,7 @@ class Dashboard extends Component {
                     labels: labels,
                     datasets: [
                         {
-                            label: 'Structure Cost Value',
+                            label: 'Structure Cost Value - All values in dollars',
                             data: structureCostData,
                             backgroundColor: results
                         }
@@ -128,14 +130,25 @@ class Dashboard extends Component {
             })
             console.log(JSON.stringify(error));
         });
+    }
 
-
+    findPredictionResult = (e) => {
+        console.log("navigating to prediction result");
+        this.setState({
+            navigateToPredictionPage: true
+        });
     }
 
     render() {
 
-        const {loading, alertMsg} = this.state;
+        const {loading, alertMsg, navigateToPredictionPage} = this.state;
         let dashboard = null;
+        let redirectUrl = null;
+
+        if (navigateToPredictionPage) {
+            const url = `/predictionResult`;
+            redirectUrl = <Redirect to={url} />;
+        }
 
         if(!loading){
             dashboard = (
@@ -244,6 +257,10 @@ class Dashboard extends Component {
                 </TabPanel>
             </Tabs>
             </div>
+            <div className="lpScoreButtonDiv">
+                <button type="button" onClick={this.findPredictionResult} className="lpScoreButton btn btn-primary btn-lg searchButton">LP Score</button>
+
+            </div>
             </div>
             );
         }else{
@@ -262,6 +279,7 @@ class Dashboard extends Component {
 
         return (
             <>
+                {redirectUrl}
                 {dashboard}
                 {alert}
 

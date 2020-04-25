@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {api} from './../../constants';
+import { Redirect } from 'react-router-dom';
 
 class StockResultDisplay extends Component {
 
@@ -38,17 +39,23 @@ class StockResultDisplay extends Component {
 
     render() {
         let details = null;
-        if(this.state.stockData.length) {
+        console.log(this.state.stockData);
+
+        let backButton = <button><Link to="/stockSearch" class="btn btn-default"><font color="blue">Back</font></Link></button>
+        if(this.state.stockData.length && this.state.stockData[0].symbol && this.state.stockData[0].profile) {
             console.log(this.state.stockData.symbol);
             details = this.state.stockData.map(stockInsights => {
                 return(
                     <div>
                     <div className="menubar1">
+                    
                 <div class="navbar-header">
+                
                     {/* <Link to="/travelerafterlogin">
                     <img src="http://csvcus.homeaway.com/rsrcs/cdn-logos/2.10.6/bce/moniker/homeaway_us/logo-bceheader.svg"/>
                     </Link> */}
                 </div>
+                {backButton}
                 <div class = "navbar nav navbar-expand-lg navbar-right trans">
                 <ul class="nav navbar-nav trans">
                 <li class="head1 active menu-items1"><Link to="/home" class="btn btn-default head1 "><font color="blue">Home</font></Link></li>&nbsp;&nbsp;&nbsp;
@@ -123,6 +130,9 @@ class StockResultDisplay extends Component {
                      </div>
                 )
             })
+        }
+        else {
+            // alert("no such stock exists")
         }
          
 
