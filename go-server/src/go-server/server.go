@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -45,6 +46,10 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	s.HandleFunc("/signup", signup(formatter)).Methods("POST")
 	s.HandleFunc("/recentdata/{city}", getRecentDataByCity(formatter)).Methods("GET")
 	s.HandleFunc("/pctchangedata/{city}", getPctChangeDataByCity(formatter)).Methods("GET")
+
+	// Tingo Based
+	s.HandleFunc("/stock/search/{searchText}", searchTingo(formatter)).Methods("GET")
+	s.HandleFunc("/stock/latest/{tinker}", latestStockPrice(formatter)).Methods("GET")
 }
 
 func pingHandler(formatter *render.Render) http.HandlerFunc {
@@ -135,6 +140,7 @@ func getRecentDataByCity(formatter *render.Render) http.HandlerFunc {
 			Count:       len(results),
 			AllLanddata: results}
 
+<<<<<<< HEAD
 		if len(results) > 0 {
 			formatter.JSON(w, http.StatusOK, response)
 		} else {
@@ -182,6 +188,68 @@ func getPctChangeDataByCity(formatter *render.Render) http.HandlerFunc {
 		}
 	}
 }
+=======
+func searchTingo(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		setupResponse(&w, req)
+		fmt.Println("inside searchTingo")
+		params := mux.Vars(req)
+		var searchText string = params["searchText"]
+
+		url := "https://api.tiingo.com/tiingo/utilities/search?query=" + searchText
+		method := "GET"
+		client := &http.Client{}
+
+		req, err := http.NewRequest(method, url, nil)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		req.Header.Add("Content-Type", "application/json")
+		req.Header.Add("Authorization", "Token a7cece7d8a0fa6692e5d9ff35ef510ef1058166a")
+
+		res, err := client.Do(req)
+		defer res.Body.Close()
+		body, err := ioutil.ReadAll(res.Body)
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(body)
+
+	}
+}
+
+func latestStockPrice(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		setupResponse(&w, req)
+		fmt.Println("inside latestStockPrice")
+		params := mux.Vars(req)
+		var tinker string = params["tinker"]
+
+		url := "https://api.tiingo.com/tiingo/daily/" + tinker + "/prices"
+		method := "GET"
+		client := &http.Client{}
+
+		req, err := http.NewRequest(method, url, nil)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		req.Header.Add("Content-Type", "application/json")
+		req.Header.Add("Authorization", "Token a7cece7d8a0fa6692e5d9ff35ef510ef1058166a")
+
+		res, err := client.Do(req)
+		defer res.Body.Close()
+		body, err := ioutil.ReadAll(res.Body)
+
+		fmt.Println(string(body))
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(body)
+
+	}
+}
+
+>>>>>>> e2d90e141f6c1c642ed6451cfca102386e718dd7
 /*
 func connectMongoDB(dbURL string, dbName string, dbColl string) (mgo.Collection, error) {
 

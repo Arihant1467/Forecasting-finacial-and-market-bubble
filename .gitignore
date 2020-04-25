@@ -4,3 +4,7 @@ go-server/go-server
 frontend-project/node_modules/*
 python-cloud-storage/lib/*
 python-cloud-storage/auth-keys/*
+City_Zhvi_AllHomes.csv
+*csv
+*.xlsx
+Datasets/

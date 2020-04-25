@@ -16,7 +16,7 @@ class Home extends Component {
             place: '',
             search: false,
         }
-
+        this.submitPlaceSearch = this.submitPlaceSearch.bind(this);
     }
 
     placeChangeHandler = (e) => {
