@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import Autocomplete from 'react-autocomplete';
 import axios from 'axios';
 import background from './background.jpg';
-import { api, citiesAvailable } from './../constants';
+import { api, citiesAvailable, getFormattedCity } from './../constants';
 
 
 class Home extends Component {
@@ -27,57 +27,31 @@ class Home extends Component {
 
     submitPlaceSearch = (e) => {
         e.preventDefault();
-        this.setState({
-            search: true
-        });
+        // this.setState({ search: true });
+        const {place} = this.state;
+        if(place!=null ){
+
+            const formattedCity = getFormattedCity(place);
+            if (citiesAvailable.indexOf(formattedCity) > -1) {
+                const url = `/dashboard/${formattedCity}`;
+                this.props.history.push(url);
+            } else {
+                console.log("the city you mentioned is not in our database");
+                alert("The city you mentioned is not present in our records");
+            }
+
+        }
         localStorage.setItem("City", this.state.place);
-    }
-
-    async componentDidMount() {
-        await axios.get(`${api}/landdata/atlanta`).then((result) => {
-            console.log("response from  server");
-            console.log(result.data);
-            console.log(result.data.alllanddata[0].HomeValue + result.data.alllanddata[1].HomeValue);
-            const test = result.data.Test;
-            console.log(test);
-            this.setState({ test });
-
-        }).catch((error) => {
-            console.log("error");
-            console.log(JSON.stringify(error));
-        })
-
-        await axios.get("https://financialmodelingprep.com/api/v3/company/profile/AAPL").then((result) => {
-            console.log("response from  server", result);
-
-        }).catch((error) => {
-            console.log("error");
-        })
-
     }
 
 
     render() {
 
-        const { test, search, place } = this.state;
-        let redirectUrl = null;
-        if (search && place !== null) {
-            const formattedCity = place.trim().toUpperCase().replace(new RegExp('\ ', 'g'), '');
-
-            if (citiesAvailable.indexOf(formattedCity) > -1) {
-                const url = `/dashboard/${formattedCity}`;
-                redirectUrl = <Redirect to={url} />;
-            } else {
-                console.log("the city you mentioned is not in our database");
-            }
-
-
-        }
-
-
+        const { test, place } = this.state;
+        
         return (
             <div className="wrapper">
-                {redirectUrl}
+                
                 <div className="menubar1">
                 <div class="navbar-header">
                     {/* <Link to="/travelerafterlogin">

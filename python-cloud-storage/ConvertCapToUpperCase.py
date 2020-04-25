@@ -6,9 +6,7 @@ def generateCSV(filePath):
     csvLines = []
     with open(filePath,mode="r") as csvFile:
         zillowCSVReader = csv.DictReader(csvFile)
-        lineCount=0
         for row in zillowCSVReader:
-            print(lineCount)
             if lineCount!=0:
                 rowCity = re.sub(re.compile(r'\s+') , '', row["City"].upper())
                 row["City"] = rowCity

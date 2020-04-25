@@ -49,4 +49,10 @@ const citiesAvailable = [
     "WASHINGTONDC"
 ];
 
-export {api, citiesAvailable};
+
+
+const getFormattedCity = (cityName) =>{
+    return cityName.trim().toUpperCase().replace(new RegExp('\ ', 'g'), '');
+}
+
+export {api, citiesAvailable, getFormattedCity};

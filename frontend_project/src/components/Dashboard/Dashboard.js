@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import './Dashboard.css';
-import { api } from './../../constants';
+import { api, getFormattedCity } from './../../constants';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import { Redirect } from 'react-router-dom';
 import { Spinner, UncontrolledAlert } from 'reactstrap';
@@ -54,7 +54,7 @@ class Dashboard extends Component {
 
 
         const { city } = this.props.match.params;
-        const formattedCity = city.trim().toUpperCase().replace(new RegExp('\ ', 'g'), '');
+        const formattedCity = getFormattedCity(city);
 
         this.setState({
             loading:true,
@@ -152,31 +152,6 @@ class Dashboard extends Component {
 
         if(!loading){
             dashboard = (
-                
-            //     <div className="wrapper row">
-            //         <h2 className="header">Dashboard Charts</h2>
-            //         {/* <h3>Land Value</h3> */}
-            //         <div className="col-md-6 barchart">
-            //             <Bar data={this.state.chartData}
-            //                 options={{
-            //                 }} 
-            //             />
-            //         </div>
-            //         {/* <div>Home Value</div> */}
-            //         <div className="col-md-6">
-            //             <Bar data={this.state.homeChartData}
-            //                 options={{
-            //                 }}
-            //             />
-            //         </div>
-            //         {/* <div>Structure Value</div> */}
-            //         <div className="col-md-6">
-            //             <Bar data={this.state.costChartData}
-            //                 options={{
-            //                 }}
-            //             />
-            //         </div>
-            //    </div>
             
             <div>
             <div className="menubar1">
