@@ -110,6 +110,7 @@ func getLanddataByCity(formatter *render.Render) http.HandlerFunc {
 		}
 	}
 }
+
 // fetching data from latesthomedata collection from mLab
 func getRecentDataByCity(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
@@ -140,7 +141,6 @@ func getRecentDataByCity(formatter *render.Render) http.HandlerFunc {
 			Count:       len(results),
 			AllLanddata: results}
 
-<<<<<<< HEAD
 		if len(results) > 0 {
 			formatter.JSON(w, http.StatusOK, response)
 		} else {
@@ -149,6 +149,7 @@ func getRecentDataByCity(formatter *render.Render) http.HandlerFunc {
 		}
 	}
 }
+
 // API for fetching data from forecastpctchange collection in mLab
 func getPctChangeDataByCity(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
@@ -175,9 +176,9 @@ func getPctChangeDataByCity(formatter *render.Render) http.HandlerFunc {
 				struct{ Response error }{err})
 		}
 		fmt.Println(results)
-		
+
 		response := ForecastResponse{
-			Count:       len(results),
+			Count:           len(results),
 			Allforecastdata: results}
 
 		if len(results) > 0 {
@@ -188,7 +189,6 @@ func getPctChangeDataByCity(formatter *render.Render) http.HandlerFunc {
 		}
 	}
 }
-=======
 func searchTingo(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		setupResponse(&w, req)
@@ -249,7 +249,6 @@ func latestStockPrice(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
->>>>>>> e2d90e141f6c1c642ed6451cfca102386e718dd7
 /*
 func connectMongoDB(dbURL string, dbName string, dbColl string) (mgo.Collection, error) {
 

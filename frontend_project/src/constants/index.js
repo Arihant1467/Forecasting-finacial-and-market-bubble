@@ -1,3 +1,3 @@
-import {api, citiesAvailable} from './constants';
+import {api, citiesAvailable, getFormattedCity} from './constants';
 
-export {api, citiesAvailable};
+export {api, citiesAvailable, getFormattedCity};
