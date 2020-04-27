@@ -31,6 +31,10 @@ class StockSearch extends Component {
 
         const url = `${api}/stock/search/${stockName}`
         axios.get(url).then((response) => {
+            console.log(response);
+            if (response.data.length == 0) {
+                alert("There was an error in searching");
+            }
 
             if (response.status === 200) {
                 const { data } = response;
@@ -64,7 +68,7 @@ class StockSearch extends Component {
                 });
             }
         }).catch((error) => {
-            alert("There was an error in fetching latest details")
+            alert("There was an error in fetching latest details. Please reload the page")
             console.log(error);
         })
 
