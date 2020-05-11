@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"net/url"
 
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/handlers"
@@ -195,8 +196,11 @@ func searchTingo(formatter *render.Render) http.HandlerFunc {
 		fmt.Println("inside searchTingo")
 		params := mux.Vars(req)
 		var searchText string = params["searchText"]
-
-		url := "https://api.tiingo.com/tiingo/utilities/search?query=" + searchText
+		fmt.Println(searchText);
+		t := &url.URL{Path: searchText}
+		mySecondEncodedString := t.String()
+		url := "https://api.tiingo.com/tiingo/utilities/search?query=" + mySecondEncodedString
+		fmt.Println(url);
 		method := "GET"
 		client := &http.Client{}
 
