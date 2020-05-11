@@ -191,7 +191,7 @@ class Prediction extends Component {
                     </ul>
                     </div> 
                 </div>
-                <p className="headingText">PREDICTION OF HOME PRICE VALUE</p>
+                <p className="headingText">PREDICTION OF HOME PRICE VALUE for {localStorage.getItem('City')}</p>
     
                 <div className="outer">
                 <Tabs defaultIndex={0}>
