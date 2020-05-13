@@ -38,7 +38,7 @@ const citiesAvailable = [
     "SACRAMENTO",
     "SALTLAKECITY",
     "SANANTONIO",
-    "SANBERNADINO",
+    "SANBERNARDINO",
     "SANDIEGO",
     "SANFRANCISCO",
     "SANJOSE",
