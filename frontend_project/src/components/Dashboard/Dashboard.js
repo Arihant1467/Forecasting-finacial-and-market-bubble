@@ -233,7 +233,7 @@ class Dashboard extends Component {
             </Tabs>
             </div>
             <div className="lpScoreButtonDiv">
-                <button type="button" onClick={this.findPredictionResult} className="lpScoreButton btn btn-primary btn-lg searchButton">LP Score</button>
+                <button type="button" onClick={this.findPredictionResult} className="lpScoreButton btn btn-primary btn-lg searchButton">HP Score</button>
 
             </div>
             </div>

@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 // import stockBackground from '.././Stock-Background.jpg';
 import Autocomplete from 'react-autocomplete';
 import { Table, Button } from 'react-bootstrap';
-import { api } from './../../constants';
+import { api, getFormattedCity } from './../../constants';
 import SpecificStock from './SpecificStock';
+import TiingoStock from './TiingoStock';
+
 
 class StockSearch extends Component {
 
@@ -16,6 +18,7 @@ class StockSearch extends Component {
             stockName: '',
             stockSearchResults: [],
             specificStock:null,
+            TiingoStock: false 
         }
         this.stockNameChangeHandler = this.stockNameChangeHandler.bind(this);
         this.submitStockSearch = this.submitStockSearch.bind(this);
@@ -24,28 +27,29 @@ class StockSearch extends Component {
 
     stockNameChangeHandler = (e) => {
         const stockName = e.target.value;
+       
 
         this.setState({ stockName });
 
         if(stockName==null || stockName==='' || stockName===' '){ return; }
-
+        
+        const modifiedStockName = getFormattedCity(stockName);
+        console.log(modifiedStockName);
         const url = `${api}/stock/search/${stockName}`
         axios.get(url).then((response) => {
-
             if (response.status === 200) {
                 const { data } = response;
                 this.setState({
                     stockSearchResults: data,
-                    specificStock:null,
+                    specificStock:null
                 });
             }
-
-        }).catch((error) => {
-            alert("There was an error in searching")
-            console.log(error);
         })
-
-
+        .catch((error) => {
+            alert("There was an error in searching");
+            window.location.reload();
+            console.log(error);
+        });
     }
 
     async submitStockSearch(e) {
@@ -53,9 +57,20 @@ class StockSearch extends Component {
         const {stockName} = this.state;
         
         if(stockName==null || stockName==='' || stockName===' '){ return; }
-
-        const url = `${api}/stock/latest/${stockName}`;
-        console.log("Spcific stock");
+        await axios.get("https://financialmodelingprep.com/api/v3/company/profile/"+stockName).then((response)=>{
+            console.log("response from  server", response);
+             if (response.data && response.data.profile) {
+                this.setState({
+                    TiingoStock: false,
+                    specificStock: response.data.profile
+                })
+            }
+            else {
+                this.setState({
+                    TiingoStock: true
+                })
+                const url = `${api}/stock/latest/${stockName}`;
+            console.log("Spcific stock");
         axios.get(url).then((response)=>{
             if (response.status === 200) {
                 const { data } = response;
@@ -64,9 +79,18 @@ class StockSearch extends Component {
                 });
             }
         }).catch((error) => {
-            alert("There was an error in fetching latest details")
+            alert("There was an error in fetching latest details");
+            window.location.reload();
             console.log(error);
         })
+            }
+            
+            }).catch((error)=>{
+                console.log("error");
+            })
+            console.log(this.state.specificStock);
+
+        
 
         localStorage.setItem("company", this.state.stockName);
     }
@@ -79,7 +103,13 @@ class StockSearch extends Component {
         let detail = null;
         if(specificStock!==null){
             console.log("null case of specific stock");
-            detail = <SpecificStock products={specificStock} />
+            if (this.state.TiingoStock) {
+                detail = <TiingoStock products={specificStock} />
+            }
+            else {
+                detail = <SpecificStock products={specificStock} />
+            }
+           
         }
 
         return (

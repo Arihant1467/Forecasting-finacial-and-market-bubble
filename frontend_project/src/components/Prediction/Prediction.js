@@ -21,6 +21,9 @@ class Prediction extends Component {
             loading: false,
             alertMsg: null,
             navigateToPredictionPage: null,
+            predictedHomePrice: 0,
+            previousQuarterHomePrice: 0,
+            percentageChange: 0,
             chartData: {
                 labels: ['Arizona', 'Boston', 'Cali', 'Denver', 'Detroitte', 'New York'],
                 datasets: [
@@ -52,8 +55,10 @@ class Prediction extends Component {
     async componentDidMount() {
         console.log(localStorage.getItem('City'));
         const city = localStorage.getItem('City');
-        const formattedCity = city.trim().toUpperCase().replace(new RegExp('\ ', 'g'), '');
-
+        let formattedCity = null;
+        if (city) {
+            formattedCity = city.trim().toUpperCase().replace(new RegExp('\ ', 'g'), '');
+        }
         this.setState({
             loading:true,
             alertMsg:null,
@@ -71,14 +76,30 @@ class Prediction extends Component {
             console.log(error);
         })
 
-        await axios.get(`${api}/landdata/${formattedCity}`).then((result) => {
+        // await axios.get(`${api}/recentdata/${formattedCity}`).then((result) => {
+        //     console.log("result", result);
+        // })
+        // .catch({
+
+        // })
+
+        await axios.get(`${api}/recentdata/${formattedCity}`).then((result) => {
             console.log("response from  server");
             console.log(result.data);
             let labels = [], homeData = [];
+            let res = [];
+            // console.log(res.sort((a, b) => (a.Date > b.Date) ? 1 : -1));
+            if(result.data && result.data.alllanddata) {
+                res = result.data.alllanddata.sort((a, b) => (a.Date > b.Date) ? 1 : -1);
+                this.setState({
+                    previousQuarterHomePrice: res[res.length-1].HomeValue
+                });
+            }
+            
 
-            for (let i = 0; i < result.data.alllanddata.length; i++) {
-                labels.push(result.data.alllanddata[i].Date);
-                homeData.push(result.data.alllanddata[i].HomeValue);
+            for (let i = 0; i < res.length; i++) {
+                labels.push(res[i].Date);
+                homeData.push(res[i].HomeValue);
             }
 
             console.log("LABELS : " + labels);
@@ -99,7 +120,7 @@ class Prediction extends Component {
 
             this.setState({
                 loading:false,
-                placeData: result.data.alllanddata,
+                placeData: res,
                 chartData: {
                     labels: labels,
                     datasets: [
@@ -118,6 +139,20 @@ class Prediction extends Component {
             })
             console.log(JSON.stringify(error));
         });
+
+        await axios.get(`${api}/pctchangedata/${formattedCity}`).then((result) => {
+            console.log(result);
+            if (result && result.data && result.data.allforecastdata && result.data.allforecastdata[0] && result.data.allforecastdata[0].PctChange) {
+                this.setState({
+                    percentageChange: result.data.allforecastdata[0].PctChange,
+                    predictedHomePrice: ((result.data.allforecastdata[0].PctChange/100) * this.state.previousQuarterHomePrice) + this.state.previousQuarterHomePrice
+                });
+            }
+
+        })
+        .catch({
+
+        })
     }
 
 
@@ -156,7 +191,7 @@ class Prediction extends Component {
                     </ul>
                     </div> 
                 </div>
-                <p className="headingText">PREDICTION OF LP VALUE</p>
+                <p className="headingText">PREDICTION OF HOME PRICE VALUE for {localStorage.getItem('City')}</p>
     
                 <div className="outer">
                 <Tabs defaultIndex={0}>
@@ -190,7 +225,7 @@ class Prediction extends Component {
             predictedValue = 
                 <div className="predictText">
                     <p className="predictText">Home Value Prediction for next 4 quarters</p>
-                    <div class="greenCircle">25222</div>
+                    <div class="greenCircle">${Math.round(this.state.predictedHomePrice)}</div>
                 </div>
 
             
