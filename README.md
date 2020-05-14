@@ -72,3 +72,16 @@ docker run -d --network=cmpe295 -p 4000:4000 --name server-forecast sayalipatil/
 docker pull arihant95/forecast-frontend:1.0
 docker run -d --network=cmpe295 -p 3000:3000 --name forecast-frontend  arihant95/forecast-frontend:1.0
 ```
+
+- Stop containers
+```
+docker stop forecast-frontend server-forecast
+docker rm forecast-frontend server-forecast
+```
+
+
+#### Launch Docker Compose
+```
+docker-compose up -d
+docker-compose down
+```
