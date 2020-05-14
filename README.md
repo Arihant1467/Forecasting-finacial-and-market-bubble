@@ -53,3 +53,22 @@ curl http://localhost:4000/api/v1/ping
 }
 ```
  
+
+### Launch the docker images and test locally
+
+- Create network
+```
+docker network create -d bridge cmpe295
+```
+
+- Backend
+```
+docker pull sayalipatil/forecast:latest
+docker run -d --network=cmpe295 -p 4000:4000 --name server-forecast sayalipatil/forecast:latest
+```
+
+- Frontend
+```
+docker pull arihant95/forecast-frontend:1.0
+docker run -d --network=cmpe295 -p 3000:3000 --name forecast-frontend  arihant95/forecast-frontend:1.0
+```

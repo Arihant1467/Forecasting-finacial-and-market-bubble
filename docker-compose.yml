@@ -1,0 +1,22 @@
+version : '3.0'
+
+networks:
+  cmpe295:
+    driver: bridge
+
+services :
+  backend:
+    image: sayalipatil/forecast:latest
+    container_name: server-forecast
+    networks:
+      - cmpe295
+    ports:
+       - "4000:4000"
+  
+  frontend:
+    image: arihant95/forecast-frontend:1.0
+    container_name: forecast-frontend
+    networks:
+      - cmpe295
+    ports:
+       - "3000:3000"

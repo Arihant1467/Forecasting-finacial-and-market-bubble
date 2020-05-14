@@ -1,0 +1,6 @@
+.git
+.cache
+package-lock.json
+README.md
+node_modules/*
+.gitignore
