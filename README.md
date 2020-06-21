@@ -3,7 +3,7 @@ Predicting the next recession
 
 
 ### Web App Video
-[Web App Video](https://github.com/Arihant1467/Forecasting-finacial-and-market-bubble/Demo)
+[Web App Video](https://github.com/Arihant1467/Forecasting-finacial-and-market-bubble/tree/master/Demo)
 
 
 ### Report
