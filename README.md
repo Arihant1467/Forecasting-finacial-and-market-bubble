@@ -2,20 +2,13 @@
 Predicting the next recession
 
 
-### MLAB login credentials
-```
-u: cmpe295
-p: cmpe295
+### Web App Video
+[Web App Video](https://github.com/Arihant1467/Forecasting-finacial-and-market-bubble/Demo)
 
-```
 
-### To connect to the database
-```
-mongo ds034348.mlab.com:34348/forecast_market_bubble -u cmpe295 -p cmpe295
-mongodb://cmpe295:cmpe295@ds034348.mlab.com:34348/forecast_market_bubble
+### Report
+[Forecasting-finacial-and-market-bubble Report](./Report/Forecasting_Financial_and_bubble_market-Final-Report.pdf)
 
-mongoimport -h ds041571.mlab.com:41571 -d team295 -c landdata -u cmpe295 -p cmpe295 --file /Users/arihantsaiparuchuru/Downloads/LandData.csv --type csv --headerline
-```
 
 ### Setting up Go Path
 ```
@@ -71,6 +64,9 @@ docker run -d --network=cmpe295 -p 4000:4000 --name server-forecast sayalipatil/
 ```
 docker pull arihant95/forecast-frontend:1.0
 docker run -d --network=cmpe295 -p 3000:3000 --name forecast-frontend  arihant95/forecast-frontend:1.0
+
+docker run -d -e PROXY_HOST='http://54.185.51.108:4000/api/v1' -p 3000:3000 --name forecast-frontend arihant95/forecast-frontend
+
 ```
 
 - Stop containers
@@ -84,4 +80,21 @@ docker rm forecast-frontend server-forecast
 ```
 docker-compose up -d
 docker-compose down
+```
+
+
+
+### MLAB login credentials
+```
+u: cmpe295
+p: cmpe295
+
+```
+
+### To connect to the database
+```
+mongo ds034348.mlab.com:34348/forecast_market_bubble -u cmpe295 -p cmpe295
+mongodb://cmpe295:cmpe295@ds034348.mlab.com:34348/forecast_market_bubble
+
+mongoimport -h ds041571.mlab.com:41571 -d team295 -c landdata -u cmpe295 -p cmpe295 --file /Users/arihantsaiparuchuru/Downloads/LandData.csv --type csv --headerline
 ```

@@ -1,4 +1,5 @@
-const api = "http://localhost:4000/api/v1";
+// const api = "http://localhost:4000/api/v1";
+const api = "http://54.189.156.61:4000/api/v1";
 
 const citiesAvailable = [
     "ATLANTA",
